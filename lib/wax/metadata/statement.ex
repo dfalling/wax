@@ -63,69 +63,72 @@ defmodule Wax.Metadata.Statement do
   ]
 
   @type t :: %__MODULE__{
-    aaid: String.t(),
-    aaguid: String.t(),
-    attestation_certificate_key_identifiers: [String.t()],
-    description: String.t(),
-    authenticator_version: non_neg_integer(),
-    protocol_family: String.t(),
-    upv: [Wax.Metadata.Statement.UPV.t()],
-    assertion_scheme: String.t(),
-    authentication_algorithm: Wax.Metadata.Statement.authentication_algorithm(),
-    authentication_algorithms: [Wax.Metadata.Statement.authentication_algorithm()],
-    public_key_alg_and_encoding: Wax.Metadata.Statement.public_key_representation_format(),
-    public_key_alg_and_encodings: [Wax.Metadata.Statement.public_key_representation_format()],
-    attestation_types: [Wax.Metadata.Statement.attestation_type()],
-    user_verification_details: [verification_method_and_combinations()],
-    key_protection: [key_protection()],
-    is_key_restricted: boolean(),
-    is_fresh_user_verification_required: boolean(),
-    matcher_protection: matcher_protection(), # far now all values exclude each other
-    crypto_strength: non_neg_integer(),
-    operating_env: String.t(),
-    attachment_hint: [attachment_hint()],
-    is_second_factor_only: boolean(),
-    tc_display: [tc_display()],
-    attestation_root_certificates: [:public_key.der_encoded()],
-    ecdaa_trust_anchors: [Wax.Metadata.Statement.EcdaaTrustAnchor],
-    supported_extensions: [Wax.Metadata.Statement.ExtensionDescriptor]
-  }
+          aaid: String.t(),
+          aaguid: String.t(),
+          attestation_certificate_key_identifiers: [String.t()],
+          description: String.t(),
+          authenticator_version: non_neg_integer(),
+          protocol_family: String.t(),
+          upv: [Wax.Metadata.Statement.UPV.t()],
+          assertion_scheme: String.t(),
+          authentication_algorithm: Wax.Metadata.Statement.authentication_algorithm(),
+          authentication_algorithms: [Wax.Metadata.Statement.authentication_algorithm()],
+          public_key_alg_and_encoding: Wax.Metadata.Statement.public_key_representation_format(),
+          public_key_alg_and_encodings: [
+            Wax.Metadata.Statement.public_key_representation_format()
+          ],
+          attestation_types: [Wax.Metadata.Statement.attestation_type()],
+          user_verification_details: [verification_method_and_combinations()],
+          key_protection: [key_protection()],
+          is_key_restricted: boolean(),
+          is_fresh_user_verification_required: boolean(),
+          # far now all values exclude each other
+          matcher_protection: matcher_protection(),
+          crypto_strength: non_neg_integer(),
+          operating_env: String.t(),
+          attachment_hint: [attachment_hint()],
+          is_second_factor_only: boolean(),
+          tc_display: [tc_display()],
+          attestation_root_certificates: [:public_key.der_encoded()],
+          ecdaa_trust_anchors: [Wax.Metadata.Statement.EcdaaTrustAnchor],
+          supported_extensions: [Wax.Metadata.Statement.ExtensionDescriptor]
+        }
 
   @type authentication_algorithm ::
-  :alg_sign_secp256r1_ecdsa_sha256_raw
-  | :alg_sign_secp256r1_ecdsa_sha256_der
-  | :alg_sign_rsassa_pss_sha256_raw
-  | :alg_sign_rsassa_pss_sha256_der
-  | :alg_sign_secp256k1_ecdsa_sha256_raw
-  | :alg_sign_secp256k1_ecdsa_sha256_der
-  | :alg_sign_sm2_sm3_raw
-  | :alg_sign_rsa_emsa_pkcs1_sha256_raw
-  | :alg_sign_rsa_emsa_pkcs1_sha256_der
-  | :alg_sign_rsassa_pss_sha384_raw
-  | :alg_sign_rsassa_pss_sha512_raw
-  | :alg_sign_rsassa_pkcsv15_sha256_raw
-  | :alg_sign_rsassa_pkcsv15_sha384_raw
-  | :alg_sign_rsassa_pkcsv15_sha512_raw
-  | :alg_sign_rsassa_pkcsv15_sha1_raw
-  | :alg_sign_secp384r1_ecdsa_sha384_raw
-  | :alg_sign_secp521r1_ecdsa_sha512_raw
-  | :alg_sign_ed25519_eddsa_sha256_raw
+          :alg_sign_secp256r1_ecdsa_sha256_raw
+          | :alg_sign_secp256r1_ecdsa_sha256_der
+          | :alg_sign_rsassa_pss_sha256_raw
+          | :alg_sign_rsassa_pss_sha256_der
+          | :alg_sign_secp256k1_ecdsa_sha256_raw
+          | :alg_sign_secp256k1_ecdsa_sha256_der
+          | :alg_sign_sm2_sm3_raw
+          | :alg_sign_rsa_emsa_pkcs1_sha256_raw
+          | :alg_sign_rsa_emsa_pkcs1_sha256_der
+          | :alg_sign_rsassa_pss_sha384_raw
+          | :alg_sign_rsassa_pss_sha512_raw
+          | :alg_sign_rsassa_pkcsv15_sha256_raw
+          | :alg_sign_rsassa_pkcsv15_sha384_raw
+          | :alg_sign_rsassa_pkcsv15_sha512_raw
+          | :alg_sign_rsassa_pkcsv15_sha1_raw
+          | :alg_sign_secp384r1_ecdsa_sha384_raw
+          | :alg_sign_secp521r1_ecdsa_sha512_raw
+          | :alg_sign_ed25519_eddsa_sha256_raw
 
   @type public_key_representation_format ::
-  :alg_key_ecc_x962_raw
-  | :alg_key_ecc_x962_der
-  | :alg_key_rsa_2048_raw
-  | :alg_key_rsa_2048_der
-  | :alg_key_cose
+          :alg_key_ecc_x962_raw
+          | :alg_key_ecc_x962_der
+          | :alg_key_rsa_2048_raw
+          | :alg_key_rsa_2048_der
+          | :alg_key_cose
 
   @type attestation_type ::
-  :tag_attestation_basic_full
-  | :tag_attestation_basic_surrogate
-  | :tag_attestation_ecdaa
-  | :tag_attestation_attca
+          :tag_attestation_basic_full
+          | :tag_attestation_basic_surrogate
+          | :tag_attestation_ecdaa
+          | :tag_attestation_attca
 
   @type verification_method_and_combinations ::
-    [Wax.Metadata.Statement.VerificationMethodDescriptor.t()]
+          [Wax.Metadata.Statement.VerificationMethodDescriptor.t()]
 
   defmodule UPV do
     @enforce_keys [:minor, :major]
@@ -133,9 +136,9 @@ defmodule Wax.Metadata.Statement do
     defstruct [:minor, :major]
 
     @type t :: %__MODULE__{
-      minor: non_neg_integer(),
-      major: non_neg_integer(),
-    }
+            minor: non_neg_integer(),
+            major: non_neg_integer()
+          }
   end
 
   defmodule VerificationMethodDescriptor do
@@ -149,14 +152,14 @@ defmodule Wax.Metadata.Statement do
     ]
 
     @type t :: %__MODULE__{
-      user_verification: Wax.Metadata.Statement.user_verification_method(),
-      code_accuracy_descriptor:
-        Wax.Metadata.Statement.VerificationMethodDescriptor.CodeAccuracyDescriptor.t(),
-      biometric_accuracy_descriptor:
-        Wax.Metadata.Statement.VerificationMethodDescriptor.BiometricAccuracyDescriptor.t(),
-      pattern_accuracy_descriptor:
-        Wax.Metadata.Statement.VerificationMethodDescriptor.PatternAccuracyDescriptor.t()
-    }
+            user_verification: Wax.Metadata.Statement.user_verification_method(),
+            code_accuracy_descriptor:
+              Wax.Metadata.Statement.VerificationMethodDescriptor.CodeAccuracyDescriptor.t(),
+            biometric_accuracy_descriptor:
+              Wax.Metadata.Statement.VerificationMethodDescriptor.BiometricAccuracyDescriptor.t(),
+            pattern_accuracy_descriptor:
+              Wax.Metadata.Statement.VerificationMethodDescriptor.PatternAccuracyDescriptor.t()
+          }
 
     defmodule CodeAccuracyDescriptor do
       @enforce_keys [:base, :min_length]
@@ -164,25 +167,25 @@ defmodule Wax.Metadata.Statement do
       defstruct [:base, :min_length, :max_retries, :block_slowdown]
 
       @type t :: %__MODULE__{
-        base: non_neg_integer(),
-        min_length: non_neg_integer(),
-        max_retries: non_neg_integer(),
-        block_slowdown: non_neg_integer()
-      }
+              base: non_neg_integer(),
+              min_length: non_neg_integer(),
+              max_retries: non_neg_integer(),
+              block_slowdown: non_neg_integer()
+            }
     end
 
     defmodule BiometricAccuracyDescriptor do
       defstruct [:far, :frr, :eer, :faar, :max_reference_data_sets, :max_retries, :block_slowdown]
 
       @type t :: %__MODULE__{
-        far: float(),
-        frr: float(),
-        eer: float(),
-        faar: float(),
-        max_reference_data_sets: non_neg_integer(),
-        max_retries: non_neg_integer(),
-        block_slowdown: non_neg_integer()
-      }
+              far: float(),
+              frr: float(),
+              eer: float(),
+              faar: float(),
+              max_reference_data_sets: non_neg_integer(),
+              max_retries: non_neg_integer(),
+              block_slowdown: non_neg_integer()
+            }
     end
 
     defmodule PatternAccuracyDescriptor do
@@ -191,54 +194,54 @@ defmodule Wax.Metadata.Statement do
       defstruct [:min_complexity, :max_retries, :block_slowdown]
 
       @type t :: %__MODULE__{
-        min_complexity: non_neg_integer(),
-        max_retries: non_neg_integer(),
-        block_slowdown: non_neg_integer()
-      }
+              min_complexity: non_neg_integer(),
+              max_retries: non_neg_integer(),
+              block_slowdown: non_neg_integer()
+            }
     end
   end
 
   @type user_verification_method ::
-  :user_verify_presence
-  | :user_verify_fingerprint
-  | :user_verify_passcode
-  | :user_verify_voiceprint
-  | :user_verify_faceprint
-  | :user_verify_location
-  | :user_verify_eyeprint
-  | :user_verify_pattern
-  | :user_verify_handprint
-  | :user_verify_none
-  | :user_verify_all
+          :user_verify_presence
+          | :user_verify_fingerprint
+          | :user_verify_passcode
+          | :user_verify_voiceprint
+          | :user_verify_faceprint
+          | :user_verify_location
+          | :user_verify_eyeprint
+          | :user_verify_pattern
+          | :user_verify_handprint
+          | :user_verify_none
+          | :user_verify_all
 
   @type key_protection ::
-  :key_protection_software
-  | :key_protection_hardware
-  | :key_protection_tee
-  | :key_protection_secure_element
-  | :key_protection_remote_handle
+          :key_protection_software
+          | :key_protection_hardware
+          | :key_protection_tee
+          | :key_protection_secure_element
+          | :key_protection_remote_handle
 
   @type matcher_protection ::
-  :matcher_protection_software
-  | :matcher_protection_tee
-  | :matcher_protection_on_chip
+          :matcher_protection_software
+          | :matcher_protection_tee
+          | :matcher_protection_on_chip
 
   @type attachment_hint ::
-  :attachment_hint_internal
-  | :attachment_hint_external
-  | :attachment_hint_wired
-  | :attachment_hint_wireless
-  | :attachment_hint_nfc
-  | :attachment_hint_bluetooth
-  | :attachment_hint_network
-  | :attachment_hint_ready
+          :attachment_hint_internal
+          | :attachment_hint_external
+          | :attachment_hint_wired
+          | :attachment_hint_wireless
+          | :attachment_hint_nfc
+          | :attachment_hint_bluetooth
+          | :attachment_hint_network
+          | :attachment_hint_ready
 
   @type tc_display ::
-  :transaction_confirmation_display_any
-  | :transaction_confirmation_display_privileged_software
-  | :transaction_confirmation_display_tee
-  | :transaction_confirmation_display_hardware
-  | :transaction_confirmation_display_remote
+          :transaction_confirmation_display_any
+          | :transaction_confirmation_display_privileged_software
+          | :transaction_confirmation_display_tee
+          | :transaction_confirmation_display_hardware
+          | :transaction_confirmation_display_remote
 
   defmodule EcdaaTrustAnchor do
     @enforce_keys [
@@ -260,13 +263,13 @@ defmodule Wax.Metadata.Statement do
     ]
 
     @type t :: %__MODULE__{
-      x: String.t(),
-      y: String.t(),
-      c: String.t(),
-      sx: String.t(),
-      sy: String.t(),
-      g1_curve: String.t()
-    }
+            x: String.t(),
+            y: String.t(),
+            c: String.t(),
+            sx: String.t(),
+            sy: String.t(),
+            g1_curve: String.t()
+          }
   end
 
   defmodule ExtensionDescriptor do
@@ -280,11 +283,11 @@ defmodule Wax.Metadata.Statement do
     ]
 
     @type t :: %__MODULE__{
-      id: String.t(),
-      tag: non_neg_integer(),
-      data: String.t(),
-      fail_if_unknown: boolean()
-    }
+            id: String.t(),
+            tag: non_neg_integer(),
+            data: String.t(),
+            fail_if_unknown: boolean()
+          }
   end
 
   @doc false
@@ -308,53 +311,58 @@ defmodule Wax.Metadata.Statement do
       description: json["description"],
       authenticator_version: json["authenticatorVersion"],
       protocol_family: json["protocolFamily"],
-      upv: Enum.map(
-        json["upv"] || [],
-        fn %{"minor" => minor, "major" => major} ->
-          %Wax.Metadata.Statement.UPV{
-            major: major,
-            minor: minor
-          }
-        end
-      ),
+      upv:
+        Enum.map(
+          json["upv"] || [],
+          fn %{"minor" => minor, "major" => major} ->
+            %Wax.Metadata.Statement.UPV{
+              major: major,
+              minor: minor
+            }
+          end
+        ),
       assertion_scheme: json["assertionScheme"],
       authentication_algorithm: authentication_algorithm(json["authenticationAlgorithm"]),
-      authentication_algorithms: Enum.map(
-        json["authenticationAlgorithms"] || [],
-        fn alg ->
-          authentication_algorithm(alg)
-        end
-      ),
+      authentication_algorithms:
+        Enum.map(
+          json["authenticationAlgorithms"] || [],
+          fn alg ->
+            authentication_algorithm(alg)
+          end
+        ),
       public_key_alg_and_encoding:
         public_key_representation_format(json["publicKeyAlgAndEncoding"]),
-      public_key_alg_and_encodings: Enum.map(
-        json["publicKeyAlgAndEncodings"] || [],
-        fn keyalg ->
-          public_key_representation_format(keyalg)
-        end
-      ),
-      attestation_types: Enum.map(
-        json["attestationTypes"],
-        fn att_type ->
-          attestation_type(att_type)
-        end
-      ),
-      user_verification_details: Enum.map(
-        json["userVerificationDetails"],
-        fn list ->
-          Enum.map(
-            list,
-            fn uvd ->
-              %Wax.Metadata.Statement.VerificationMethodDescriptor{
-                user_verification: user_verification_method(uvd["userVerification"]),
-                code_accuracy_descriptor: code_accuracy_descriptor(uvd["caDesc"]),
-                biometric_accuracy_descriptor: biometric_accuracy_descriptor(uvd["baDesc"]),
-                pattern_accuracy_descriptor: pattern_accuracy_descriptor(uvd["paDesc"])
-              }
-            end
-          )
-        end
-      ),
+      public_key_alg_and_encodings:
+        Enum.map(
+          json["publicKeyAlgAndEncodings"] || [],
+          fn keyalg ->
+            public_key_representation_format(keyalg)
+          end
+        ),
+      attestation_types:
+        Enum.map(
+          json["attestationTypes"],
+          fn att_type ->
+            attestation_type(att_type)
+          end
+        ),
+      user_verification_details:
+        Enum.map(
+          json["userVerificationDetails"],
+          fn list ->
+            Enum.map(
+              list,
+              fn uvd ->
+                %Wax.Metadata.Statement.VerificationMethodDescriptor{
+                  user_verification: user_verification_method(uvd["userVerification"]),
+                  code_accuracy_descriptor: code_accuracy_descriptor(uvd["caDesc"]),
+                  biometric_accuracy_descriptor: biometric_accuracy_descriptor(uvd["baDesc"]),
+                  pattern_accuracy_descriptor: pattern_accuracy_descriptor(uvd["paDesc"])
+                }
+              end
+            )
+          end
+        ),
       key_protection: key_protection(json["keyProtection"]),
       is_key_restricted: json["isKeyRestricted"],
       is_fresh_user_verification_required: json["isFreshUserVerificationRequired"],
@@ -364,36 +372,39 @@ defmodule Wax.Metadata.Statement do
       attachment_hint: attachment_hint(json["attachmentHint"]),
       is_second_factor_only: json["isSecondFactorOnly"],
       tc_display: tc_display(json["tcDisplay"]),
-      attestation_root_certificates: Enum.map(
-        json["attestationRootCertificates"],
-        fn
-          b64_cert -> Base.decode64!(b64_cert)
-        end
-      ),
-      ecdaa_trust_anchors: Enum.map(
-        json["ecdaaTrustAnchors"] || [],
-        fn map ->
-          %Wax.Metadata.Statement.EcdaaTrustAnchor{
-            x: map["X"],
-            y: map["Y"],
-            c: map["c"],
-            sx: map["sx"],
-            sy: map["sy"],
-            g1_curve: map["G1Curve"]
-          }
-        end
-      ),
-      supported_extensions: Enum.map(
-        json["supportedExtensions"] || [],
-        fn map ->
-          %Wax.Metadata.Statement.ExtensionDescriptor{
-            id: map["id"],
-            tag: map["tag"],
-            data: map["data"],
-            fail_if_unknown: map["fail_if_unknown"]
-          }
-        end
-      )
+      attestation_root_certificates:
+        Enum.map(
+          json["attestationRootCertificates"],
+          fn
+            b64_cert -> Base.decode64!(b64_cert)
+          end
+        ),
+      ecdaa_trust_anchors:
+        Enum.map(
+          json["ecdaaTrustAnchors"] || [],
+          fn map ->
+            %Wax.Metadata.Statement.EcdaaTrustAnchor{
+              x: map["X"],
+              y: map["Y"],
+              c: map["c"],
+              sx: map["sx"],
+              sy: map["sy"],
+              g1_curve: map["G1Curve"]
+            }
+          end
+        ),
+      supported_extensions:
+        Enum.map(
+          json["supportedExtensions"] || [],
+          fn map ->
+            %Wax.Metadata.Statement.ExtensionDescriptor{
+              id: map["id"],
+              tag: map["tag"],
+              data: map["data"],
+              fail_if_unknown: map["fail_if_unknown"]
+            }
+          end
+        )
     }
   end
 
@@ -442,13 +453,14 @@ defmodule Wax.Metadata.Statement do
   defp user_verification_method(0x00000100), do: :user_verify_handprint
   defp user_verification_method(0x00000200), do: :user_verify_none
   defp user_verification_method(0x00000400), do: :user_verify_all
+  defp user_verification_method(0x00000800), do: :user_verify_all
 
   @spec code_accuracy_descriptor(map()) ::
-    Wax.Metadata.Statement.VerificationMethodDescriptor.CodeAccuracyDescriptor.t()
+          Wax.Metadata.Statement.VerificationMethodDescriptor.CodeAccuracyDescriptor.t()
 
   defp code_accuracy_descriptor(nil), do: nil
-  defp code_accuracy_descriptor(map)
-  do
+
+  defp code_accuracy_descriptor(map) do
     %Wax.Metadata.Statement.VerificationMethodDescriptor.CodeAccuracyDescriptor{
       base: map["base"],
       min_length: map["minLength"],
@@ -458,11 +470,11 @@ defmodule Wax.Metadata.Statement do
   end
 
   @spec biometric_accuracy_descriptor(map()) ::
-    Wax.Metadata.Statement.VerificationMethodDescriptor.BiometricAccuracyDescriptor.t()
+          Wax.Metadata.Statement.VerificationMethodDescriptor.BiometricAccuracyDescriptor.t()
 
   defp biometric_accuracy_descriptor(nil), do: nil
-  defp biometric_accuracy_descriptor(map)
-  do
+
+  defp biometric_accuracy_descriptor(map) do
     %Wax.Metadata.Statement.VerificationMethodDescriptor.BiometricAccuracyDescriptor{
       far: map["FAR"],
       frr: map["FRR"],
@@ -475,11 +487,11 @@ defmodule Wax.Metadata.Statement do
   end
 
   @spec pattern_accuracy_descriptor(map()) ::
-    Wax.Metadata.Statement.VerificationMethodDescriptor.PatternAccuracyDescriptor.t()
+          Wax.Metadata.Statement.VerificationMethodDescriptor.PatternAccuracyDescriptor.t()
 
   defp pattern_accuracy_descriptor(nil), do: nil
-  defp pattern_accuracy_descriptor(map)
-  do
+
+  defp pattern_accuracy_descriptor(map) do
     %Wax.Metadata.Statement.VerificationMethodDescriptor.PatternAccuracyDescriptor{
       min_complexity: map["minComplexity"],
       max_retries: map["maxRetries"],
@@ -499,8 +511,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec key_protected_software([key_protection()], non_neg_integer()) :: [key_protection]
 
-  defp key_protected_software(kp_list, kp) when (kp &&& 0x0001) > 0
-  do
+  defp key_protected_software(kp_list, kp) when (kp &&& 0x0001) > 0 do
     [:key_protection_software | kp_list]
   end
 
@@ -508,8 +519,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec key_protected_hardware([key_protection()], non_neg_integer()) :: [key_protection]
 
-  defp key_protected_hardware(kp_list, kp) when (kp &&& 0x0002) > 0
-  do
+  defp key_protected_hardware(kp_list, kp) when (kp &&& 0x0002) > 0 do
     [:key_protection_hardware | kp_list]
   end
 
@@ -517,8 +527,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec key_protected_tee([key_protection()], non_neg_integer()) :: [key_protection]
 
-  defp key_protected_tee(kp_list, kp) when (kp &&& 0x0004) > 0
-  do
+  defp key_protected_tee(kp_list, kp) when (kp &&& 0x0004) > 0 do
     [:key_protection_tee | kp_list]
   end
 
@@ -526,8 +535,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec key_protected_secure_element([key_protection()], non_neg_integer()) :: [key_protection]
 
-  defp key_protected_secure_element(kp_list, kp) when (kp &&& 0x0008) > 0
-  do
+  defp key_protected_secure_element(kp_list, kp) when (kp &&& 0x0008) > 0 do
     [:key_protection_secure_element | kp_list]
   end
 
@@ -535,8 +543,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec key_protected_remote_handle([key_protection()], non_neg_integer()) :: [key_protection]
 
-  defp key_protected_remote_handle(kp_list, kp) when (kp &&& 0x0010) > 0
-  do
+  defp key_protected_remote_handle(kp_list, kp) when (kp &&& 0x0010) > 0 do
     [:key_protection_remote_handle | kp_list]
   end
 
@@ -550,8 +557,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint(non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint(ah)
-  do
+  defp attachment_hint(ah) do
     []
     |> attachment_hint_internal(ah)
     |> attachment_hint_external(ah)
@@ -565,8 +571,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_internal([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_internal(ah_list, ah) when (ah &&& 0x0001) > 0
-  do
+  defp attachment_hint_internal(ah_list, ah) when (ah &&& 0x0001) > 0 do
     [:attachment_hint_internal | ah_list]
   end
 
@@ -574,8 +579,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_external([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_external(ah_list, ah) when (ah &&& 0x0002) > 0
-  do
+  defp attachment_hint_external(ah_list, ah) when (ah &&& 0x0002) > 0 do
     [:attachment_hint_external | ah_list]
   end
 
@@ -583,8 +587,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_wired([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_wired(ah_list, ah) when (ah &&& 0x0004) > 0
-  do
+  defp attachment_hint_wired(ah_list, ah) when (ah &&& 0x0004) > 0 do
     [:attachment_hint_wired | ah_list]
   end
 
@@ -592,8 +595,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_wireless([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_wireless(ah_list, ah) when (ah &&& 0x0008) > 0
-  do
+  defp attachment_hint_wireless(ah_list, ah) when (ah &&& 0x0008) > 0 do
     [:attachment_hint_wireless | ah_list]
   end
 
@@ -601,8 +603,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_nfc([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_nfc(ah_list, ah) when (ah &&& 0x0010) > 0
-  do
+  defp attachment_hint_nfc(ah_list, ah) when (ah &&& 0x0010) > 0 do
     [:attachment_hint_nfc | ah_list]
   end
 
@@ -610,8 +611,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_bluetooth([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_bluetooth(ah_list, ah) when (ah &&& 0x0020) > 0
-  do
+  defp attachment_hint_bluetooth(ah_list, ah) when (ah &&& 0x0020) > 0 do
     [:attachment_hint_bluetooth | ah_list]
   end
 
@@ -619,8 +619,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_network([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_network(ah_list, ah) when (ah &&& 0x0040) > 0
-  do
+  defp attachment_hint_network(ah_list, ah) when (ah &&& 0x0040) > 0 do
     [:attachment_hint_network | ah_list]
   end
 
@@ -628,8 +627,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec attachment_hint_ready([attachment_hint()], non_neg_integer()) :: [attachment_hint()]
 
-  defp attachment_hint_ready(ah_list, ah) when (ah &&& 0x0080) > 0
-  do
+  defp attachment_hint_ready(ah_list, ah) when (ah &&& 0x0080) > 0 do
     [:attachment_hint_ready | ah_list]
   end
 
@@ -637,8 +635,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec tc_display(non_neg_integer()) :: [tc_display()]
 
-  defp tc_display(tc)
-  do
+  defp tc_display(tc) do
     []
     |> tc_display_any(tc)
     |> tc_display_privileged_software(tc)
@@ -649,8 +646,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec tc_display_any([tc_display()], non_neg_integer()) :: [tc_display()]
 
-  defp tc_display_any(tc_list, tc) when (tc &&& 0x0001) > 0
-  do
+  defp tc_display_any(tc_list, tc) when (tc &&& 0x0001) > 0 do
     [:transaction_confirmation_display_any | tc_list]
   end
 
@@ -658,8 +654,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec tc_display_privileged_software([tc_display()], non_neg_integer()) :: [tc_display()]
 
-  defp tc_display_privileged_software(tc_list, tc) when (tc &&& 0x0002) > 0
-  do
+  defp tc_display_privileged_software(tc_list, tc) when (tc &&& 0x0002) > 0 do
     [:transaction_confirmation_display_privileged_software | tc_list]
   end
 
@@ -667,8 +662,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec tc_display_tee([tc_display()], non_neg_integer()) :: [tc_display()]
 
-  defp tc_display_tee(tc_list, tc) when (tc &&& 0x0004) > 0
-  do
+  defp tc_display_tee(tc_list, tc) when (tc &&& 0x0004) > 0 do
     [:transaction_confirmation_display_tee | tc_list]
   end
 
@@ -676,8 +670,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec tc_display_hardware([tc_display()], non_neg_integer()) :: [tc_display()]
 
-  defp tc_display_hardware(tc_list, tc) when (tc &&& 0x0008) > 0
-  do
+  defp tc_display_hardware(tc_list, tc) when (tc &&& 0x0008) > 0 do
     [:transaction_confirmation_display_hardware | tc_list]
   end
 
@@ -685,8 +678,7 @@ defmodule Wax.Metadata.Statement do
 
   @spec tc_display_remote([tc_display()], non_neg_integer()) :: [tc_display()]
 
-  defp tc_display_remote(tc_list, tc) when (tc &&& 0x0010) > 0
-  do
+  defp tc_display_remote(tc_list, tc) when (tc &&& 0x0010) > 0 do
     [:transaction_confirmation_display_remote | tc_list]
   end
 
